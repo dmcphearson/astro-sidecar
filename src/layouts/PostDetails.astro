@@ -74,7 +74,7 @@ const nextPost =
       </svg><span>Go back</span>
     </button>
   </div>
-  <main id="main-content" class="mx-auto w-full max-w-4xl pb-12">
+  <main id="main-content" data-pagefind-body class="mx-auto w-full max-w-4xl pb-12">
     <h1 transition:name={slugifyStr(title)} class="inline-block text-2xl font-semibold text-accent">
     {title}
     </h1>
@@ -83,11 +83,13 @@ const nextPost =
       modDatetime={modDatetime}
       size="lg"
       class="my-2"
+      data-pagefind-ignore
     />
     <article id="article" class="app-prose mx-auto mt-8 max-w-4xl">
       <Content />
     </article>
 
+    <div data-pagefind-ignore>
     <hr class="my-6 border-dashed" />
 
     <ul class="mb-4">
@@ -190,6 +192,7 @@ const nextPost =
           </a>
         )
       }
+    </div>
     </div>
   </main>
   <Footer />
