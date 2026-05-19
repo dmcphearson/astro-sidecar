@@ -39,7 +39,6 @@ export default defineConfig({
     },
   },
   vite: {
-    // @ts-expect-error - Vite plugin type mismatch between Astro's bundled Vite and @tailwindcss/vite
     plugins: [tailwindcss()],
   },
   image: {
@@ -54,8 +53,5 @@ export default defineConfig({
         optional: true,
       }),
     },
-  },
-  experimental: {
-    preserveScriptOrder: true,
   },
 });
