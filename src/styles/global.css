@@ -42,7 +42,7 @@ html[data-theme="light"],
 html[data-color="emerald"][data-theme="light"] {
   --background: #fafaf8;
   --foreground: #171717;
-  --accent: #1d4ed8;
+  --accent: #047857;
   --muted: #f3f4f6;
   --border: #e5e7eb;
 }
