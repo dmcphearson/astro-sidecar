@@ -1,0 +1,91 @@
+---
+import { getCollection } from "astro:content";
+import SidebarLayout from "@/layouts/SidebarLayout.astro";
+import Header from "@/components/Header.astro";
+import LinkButton from "@/components/LinkButton.astro";
+import Hr from "@/components/Hr.astro";
+import Card from "@/components/Card.astro";
+import getSortedPosts from "@/utils/getSortedPosts";
+import { SITE, HERO, PROJECTS } from "@/config";
+
+const posts = await getCollection("blog");
+const sortedPosts = getSortedPosts(posts);
+---
+
+<SidebarLayout>
+  <Header slot="header" />
+
+  <main id="main-content" class="mx-auto flex w-full max-w-4xl flex-1 flex-col px-4 pb-4">
+        <section id="hero" class="mb-8 pb-8 pt-8">
+          <h2 class="mb-4 text-2xl tracking-wider sm:text-3xl">{HERO.greeting}</h2>
+
+          {HERO.paragraphs.map((paragraph, i) => (
+            <p class:list={["leading-relaxed", i < HERO.paragraphs.length - 1 && "mb-4"]}>
+              {paragraph}
+            </p>
+          ))}
+        </section>
+        <Hr />
+
+        {
+          sortedPosts.length > 0 && (
+            <section id="recent-posts" class="pb-5 pt-5">
+              <h2 class="mb-4 text-2xl font-semibold tracking-wide">Recent Posts</h2>
+              <ul>
+                {sortedPosts.map(
+                  (post, index) =>
+                    index < SITE.postPerIndex && (
+                      <Card {...post} />
+                    )
+                )}
+              </ul>
+            </section>
+          )
+        }
+
+        <div class="mt-auto pb-8 pt-4 text-center">
+          <LinkButton href="/posts/" className="inline-flex items-center gap-1">
+            Read More
+            <svg xmlns="http://www.w3.org/2000/svg" class="inline-block h-6 w-6 fill-current" viewBox="0 0 24 24">
+              <path
+                d="m11.293 17.293 1.414 1.414L19.414 12l-6.707-6.707-1.414 1.414L15.586 11H6v2h9.586z"
+              ></path>
+            </svg>
+          </LinkButton>
+        </div>
+
+        {PROJECTS.enabled && (
+          <>
+            <Hr />
+
+            <section id="projects" class="pb-5 pt-5">
+              <h2 class="mb-4 text-2xl font-semibold tracking-wide">{PROJECTS.heading}</h2>
+              <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {PROJECTS.items.map(project => (
+                  <div class="rounded-lg border border-border p-4">
+                    <div class="mb-1 flex items-center justify-between">
+                      {project.url ? (
+                        <a href={project.url} target="_blank" rel="noopener noreferrer" class="font-medium text-accent decoration-dashed underline-offset-4 hover:underline">{project.name}</a>
+                      ) : (
+                        <span class="font-medium">{project.name}</span>
+                      )}
+                      <span class:list={["text-xs", project.status === "Work in Progress" ? "italic opacity-50" : "opacity-60"]}>{project.status}</span>
+                    </div>
+                    <p class="text-sm opacity-80">{project.description}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          </>
+        )}
+  </main>
+
+  <!-- Simple Footer for Homepage -->
+  <footer class="mt-auto w-full">
+    <hr class="border-border opacity-50" />
+    <div class="py-6 text-center">
+      <p class="text-sm opacity-70">Copyright &copy; {new Date().getFullYear()} | All rights reserved.</p>
+    </div>
+  </footer>
+</SidebarLayout>
+

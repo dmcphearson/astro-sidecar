@@ -1,0 +1,13 @@
+---
+export interface Props {
+  class?: string;
+  noPadding?: boolean;
+  ariaHidden?: boolean;
+}
+
+const { class: extraClass = "", noPadding = false, ariaHidden = true } = Astro.props;
+---
+
+<div class={`${noPadding ? "px-0" : "px-4"} ${extraClass}`}>
+  <hr class="border-skin-line" aria-hidden={ariaHidden} />
+</div>

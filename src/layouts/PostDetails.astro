@@ -1,0 +1,437 @@
+---
+import SidebarLayout from "@/layouts/SidebarLayout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Tag from "@/components/Tag.astro";
+import Datetime from "@/components/Datetime.astro";
+import { type CollectionEntry, render } from "astro:content";
+import { slugifyStr } from "@/utils/slugify";
+import ShareLinks from "@/components/ShareLinks.astro";
+import { SITE, COMMENTS } from "@/config";
+
+export interface Props {
+  post: CollectionEntry<"blog">;
+  posts: CollectionEntry<"blog">[];
+}
+
+const { post, posts } = Astro.props;
+
+const {
+  title,
+  author,
+  description,
+  ogImage,
+  canonicalURL,
+  pubDatetime,
+  modDatetime,
+  tags,
+} = post.data;
+
+const { Content } = await render(post);
+
+const ogImageUrl = typeof ogImage === "string" ? ogImage : ogImage?.src;
+const ogUrl = ogImageUrl
+  ? new URL(ogImageUrl, Astro.url.origin).href
+  : undefined;
+
+const layoutProps = {
+  title: `${title} | ${SITE.title}`,
+  author,
+  description,
+  pubDatetime,
+  modDatetime,
+  canonicalURL,
+  ogImage: ogUrl,
+  scrollSmooth: true,
+};
+
+/* ========== Prev/Next Posts ========== */
+
+const allPosts = posts.map(({ data: { title }, id }) => ({
+  id,
+  title,
+}));
+
+const currentPostIndex = allPosts.findIndex(a => a.id === post.id);
+
+const prevPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
+const nextPost =
+  currentPostIndex !== allPosts.length ? allPosts[currentPostIndex + 1] : null;
+---
+
+<SidebarLayout {...layoutProps}>
+  <Header slot="header" />
+
+  <div class="mx-auto flex w-full max-w-4xl justify-start">
+    <button
+      class="focus-outline mb-2 mt-8 flex items-center gap-1 hover:opacity-75"
+      onclick="(() => (history.length === 1) ? window.location = '/' : history.back())()"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 fill-current" viewBox="0 0 24 24"
+        ><path
+          d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"
+        ></path>
+      </svg><span>Go back</span>
+    </button>
+  </div>
+  <main id="main-content" class="mx-auto w-full max-w-4xl pb-12">
+    <h1 transition:name={slugifyStr(title)} class="inline-block text-2xl font-semibold text-accent">
+    {title}
+    </h1>
+    <Datetime
+      pubDatetime={pubDatetime}
+      modDatetime={modDatetime}
+      size="lg"
+      class="my-2"
+    />
+    <article id="article" class="app-prose mx-auto mt-8 max-w-4xl">
+      <Content />
+    </article>
+
+    <hr class="my-6 border-dashed" />
+
+    <ul class="mb-4">
+      {tags.map(tag => <Tag tag={slugifyStr(tag)} />)}
+    </ul>
+
+    <div
+      class="flex flex-col-reverse items-center justify-between gap-6 sm:flex-row-reverse sm:items-end sm:gap-4"
+    >
+      <button
+        id="back-to-top"
+        class="focus-outline flex items-center gap-1 whitespace-nowrap py-1 hover:opacity-75"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 rotate-90 fill-current" viewBox="0 0 24 24">
+          <path
+            d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"
+          ></path>
+        </svg>
+        <span>Back to Top</span>
+      </button>
+
+      <ShareLinks />
+
+    </div>
+
+    <!-- Giscus Comments -->
+    {COMMENTS.enabled && COMMENTS.giscus && (
+      <div
+        id="giscus-config"
+        data-repo={COMMENTS.giscus.repo}
+        data-repo-id={COMMENTS.giscus.repoId}
+        data-category={COMMENTS.giscus.category}
+        data-category-id={COMMENTS.giscus.categoryId}
+        style="display:none"
+      />
+    )}
+    {COMMENTS.enabled && <div class="giscus-container"></div>}
+
+    <hr class="my-6 border-dashed" />
+
+    <!-- Previous/Next Post Buttons -->
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+      {
+        prevPost && (
+          <a
+            href={`/posts/${prevPost.id}`}
+            class="flex w-full gap-1 hover:opacity-75"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-left flex-none"
+            >
+              <>
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M15 6l-6 6l6 6" />
+              </>
+            </svg>
+            <div>
+              <span>Previous Post</span>
+              <div class="text-sm text-accent/85">{prevPost.title}</div>
+            </div>
+          </a>
+        )
+      }
+      {
+        nextPost && (
+          <a
+            href={`/posts/${nextPost.id}`}
+            class="flex w-full justify-end gap-1 text-right hover:opacity-75 sm:col-start-2"
+          >
+            <div>
+              <span>Next Post</span>
+              <div class="text-sm text-accent/85">{nextPost.title}</div>
+            </div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right flex-none"
+            >
+              <>
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M9 6l6 6l-6 6" />
+              </>
+            </svg>
+          </a>
+        )
+      }
+    </div>
+  </main>
+  <Footer />
+</SidebarLayout>
+
+<script is:inline data-astro-rerun>
+  /** Create a progress indicator
+   *  at the top */
+  function createProgressBar() {
+    // Remove any existing progress bar first
+    const existingContainer = document.querySelector('.progress-container');
+    if (existingContainer) {
+      existingContainer.remove();
+    }
+
+    // Create the main container div
+    const progressContainer = document.createElement("div");
+    progressContainer.className =
+      "progress-container fixed top-0 z-10 h-1 w-full bg-background";
+
+    // Create the progress bar div
+    const progressBar = document.createElement("div");
+    progressBar.className = "progress-bar h-1 w-0 bg-accent";
+    progressBar.id = "myBar";
+
+    // Append the progress bar to the progress container
+    progressContainer.appendChild(progressBar);
+
+    // Append the progress container to the document body or any other desired parent element
+    document.body.appendChild(progressContainer);
+  }
+
+  /** Remove progress bar when leaving the page */
+  function removeProgressBar() {
+    const progressContainer = document.querySelector('.progress-container');
+    if (progressContainer) {
+      progressContainer.remove();
+    }
+  }
+  /** Update the progress bar when user scrolls */
+  function updateScrollProgress() {
+    document.addEventListener("scroll", () => {
+      const article = document.getElementById("article");
+      const myBar = document.getElementById("myBar");
+
+      if (!article || !myBar) return;
+
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+
+      if (docHeight <= 0) return;
+
+      let scrolled = (winScroll / docHeight) * 100;
+      scrolled = Math.max(0, Math.min(100, scrolled));
+      myBar.style.width = scrolled + "%";
+    });
+  }
+
+  /** Attaches links to headings in the document,
+   *  allowing sharing of sections easily */
+  function addHeadingLinks() {
+    const headings = Array.from(
+      document.querySelectorAll("#article h2, #article h3, #article h4, #article h5, #article h6")
+    );
+    for (const heading of headings) {
+      heading.classList.add("group");
+      const link = document.createElement("a");
+      link.className =
+        "heading-link ml-2 opacity-0 group-hover:opacity-100 focus:opacity-100";
+      link.href = "#" + heading.id;
+
+      const span = document.createElement("span");
+      span.ariaHidden = "true";
+      span.innerText = "#";
+      link.appendChild(span);
+      heading.appendChild(link);
+    }
+  }
+
+  /** Scrolls the document to the top when
+   * the "Back to Top" button is clicked. */
+  function backToTop() {
+    document.querySelector("#back-to-top")?.addEventListener("click", () => {
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    });
+  }
+
+  /** Attaches copy buttons to code blocks in the document,
+   * allowing users to copy code easily. */
+  function attachCopyButtons() {
+    const copyButtonLabel = "Copy";
+    const codeBlocks = Array.from(document.querySelectorAll("pre"));
+
+    for (const codeBlock of codeBlocks) {
+      // Skip if button already exists
+      if (codeBlock.querySelector(".copy-code")) {
+        continue;
+      }
+
+      const wrapper = document.createElement("div");
+      wrapper.style.position = "relative";
+
+      const copyButton = document.createElement("button");
+      copyButton.className = "copy-code absolute right-2 top-2 z-10 rounded bg-muted border border-border px-2 py-1 text-xs leading-4 text-foreground font-medium hover:bg-accent hover:text-background transition-colors";
+      copyButton.innerHTML = copyButtonLabel;
+      copyButton.type = "button";
+
+      codeBlock.setAttribute("tabindex", "0");
+      codeBlock.style.position = "relative";
+      codeBlock.appendChild(copyButton);
+
+      copyButton.addEventListener("click", async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        try {
+          const code = codeBlock.querySelector("code");
+          if (!code) {
+            console.error("No code element found");
+            return;
+          }
+
+          // Get text content, stripping out the copy button text
+          let text = code.textContent || code.innerText || "";
+
+          // Remove the "Copy" or "Copied" button text if it got included
+          text = text.replace(/^(Copy|Copied)\s*/, "");
+
+          if (!text) {
+            console.error("No text found to copy");
+            return;
+          }
+
+          // Try modern clipboard API first, fallback to execCommand for HTTP contexts
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(text);
+          } else {
+            // Fallback for non-HTTPS contexts (like local IP addresses)
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+              document.execCommand('copy');
+            } finally {
+              document.body.removeChild(textArea);
+            }
+          }
+
+          // visual feedback that task is completed
+          copyButton.innerText = "Copied";
+
+          setTimeout(() => {
+            copyButton.innerText = copyButtonLabel;
+          }, 700);
+        } catch (err) {
+          console.error("Failed to copy code:", err);
+          copyButton.innerText = "Error";
+          setTimeout(() => {
+            copyButton.innerText = copyButtonLabel;
+          }, 700);
+        }
+      });
+
+      // wrap codeblock with relative parent element
+      codeBlock?.parentNode?.insertBefore(wrapper, codeBlock);
+      wrapper.appendChild(codeBlock);
+    }
+  }
+  /** Reload giscus after page transition */
+  function loadGiscus() {
+    const giscusContainer = document.querySelector('.giscus-container');
+    if (!giscusContainer) return;
+
+    const giscusConfig = document.getElementById('giscus-config');
+    if (!giscusConfig) return;
+
+    while (giscusContainer.firstChild) {
+      giscusContainer.removeChild(giscusContainer.firstChild);
+    }
+
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.setAttribute('data-repo', giscusConfig.dataset.repo || '');
+    script.setAttribute('data-repo-id', giscusConfig.dataset.repoId || '');
+    script.setAttribute('data-category', giscusConfig.dataset.category || '');
+    script.setAttribute('data-category-id', giscusConfig.dataset.categoryId || '');
+    script.setAttribute('data-mapping', 'title');
+    script.setAttribute('data-strict', '0');
+    script.setAttribute('data-reactions-enabled', '1');
+    script.setAttribute('data-emit-metadata', '0');
+    script.setAttribute('data-input-position', 'bottom');
+    script.setAttribute('data-theme', 'transparent_dark');
+    script.setAttribute('data-lang', 'en');
+    script.setAttribute('crossorigin', 'anonymous');
+    script.async = true;
+
+    giscusContainer.appendChild(script);
+  }
+
+  /** Initialize all post page functionality */
+  function initPostPage() {
+    createProgressBar();
+    updateScrollProgress();
+    addHeadingLinks();
+    backToTop();
+    attachCopyButtons();
+    loadGiscus();
+  }
+
+  // Initialize on page load
+  initPostPage();
+
+  // Re-initialize after view transitions
+  document.addEventListener('astro:after-swap', () => {
+    window.scrollTo({ left: 0, top: 0, behavior: 'instant' });
+    initPostPage();
+  });
+
+  // Clean up progress bar before navigating away
+  document.addEventListener('astro:before-swap', () => {
+    removeProgressBar();
+  });
+
+  // Update giscus theme when dark mode changes (always dark on this site)
+  const observer = new MutationObserver(() => {
+    const iframe = document.querySelector('iframe.giscus-frame');
+    if (iframe) {
+      const url = new URL(iframe.src);
+      url.searchParams.set('theme', 'transparent_dark');
+      iframe.src = url.href;
+    }
+  });
+
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-theme'],
+  });
+</script>

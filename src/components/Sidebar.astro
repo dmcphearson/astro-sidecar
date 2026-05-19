@@ -1,0 +1,251 @@
+---
+import Socials from "./Connections.astro";
+import { PROFILE, SKILLS, EDUCATION, CERTIFICATIONS } from "@/config";
+
+const skillsRow1 = SKILLS.items.slice(0, Math.ceil(SKILLS.items.length / 2));
+const skillsRow2 = SKILLS.items.slice(Math.ceil(SKILLS.items.length / 2));
+const skillsHeading = SKILLS.heading || "Skills & Expertise";
+const educationHeading = EDUCATION.heading || "Education";
+const certsHeading = CERTIFICATIONS.heading || "Certifications";
+---
+
+<aside class="w-full bg-background lg:sticky lg:top-0 lg:h-screen lg:w-96 lg:flex-shrink-0 lg:overflow-y-auto" style="scrollbar-gutter: stable;">
+  <div class="flex h-full flex-col items-center px-4 py-6 text-center sm:px-6 lg:py-8">
+    <!-- Photo -->
+    <a href="/" class="mb-4 block rounded-full p-1.5 ring-1 ring-accent transition-opacity hover:opacity-80">
+      <img
+        src={PROFILE.photo}
+        alt={PROFILE.name}
+        width="128"
+        height="128"
+        loading="eager"
+        fetchpriority="high"
+        class="h-32 w-32 rounded-full object-cover"
+      />
+    </a>
+
+    <!-- Name -->
+    <h1 class="mb-2 text-2xl font-bold">{PROFILE.name}</h1>
+    <p class="mb-4 text-xs leading-relaxed opacity-70">
+      {PROFILE.tagline}
+    </p>
+
+    <!-- Expandable background section (mobile only) -->
+    <details class="w-full mb-4 lg:hidden group">
+      <summary class="cursor-pointer list-none">
+        <div class="flex items-center justify-between rounded-lg border border-accent/20 bg-accent/5 px-4 py-3 transition-colors hover:bg-accent/10">
+          <span class="text-sm font-semibold text-accent">View my background</span>
+          <svg class="h-5 w-5 text-accent transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+      </summary>
+      <div class="mt-4 space-y-4">
+
+    {PROFILE.company && (
+      <div class="mb-4 w-full rounded-lg border border-border bg-muted/20 p-3">
+        <p class="mb-2 text-xs font-semibold uppercase tracking-wide opacity-70">Currently at</p>
+        <a
+          href={PROFILE.company.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center justify-center gap-3 group"
+        >
+          <img
+            src={PROFILE.company.logo}
+            alt={PROFILE.company.name}
+            width="40"
+            height="40"
+            loading="eager"
+            class="h-10 w-10 rounded-full object-cover ring-2 ring-accent/20 transition-all group-hover:ring-accent/50"
+          />
+          <span class="text-lg font-semibold text-foreground group-hover:opacity-80 transition-opacity">{PROFILE.company.name}</span>
+        </a>
+        <p class="mt-2 text-sm opacity-80">{PROFILE.company.title}</p>
+      </div>
+    )}
+
+    {SKILLS.enabled && (
+      <div class="w-full mb-4">
+        <h2 class="mb-2 text-sm font-semibold uppercase tracking-wide opacity-70">{skillsHeading}</h2>
+        <div class="space-y-2">
+          <div class="relative overflow-hidden">
+            <div class="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none hidden lg:block"></div>
+            <div class="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none hidden lg:block"></div>
+            <div class="flex flex-wrap justify-center gap-2 lg:inline-flex lg:flex-nowrap lg:gap-0 animate-scroll-right-seamless">
+              <div class="hidden lg:inline-flex lg:flex-nowrap lg:gap-0">
+                {skillsRow1.map(skill => (
+                  <span class="rounded-full bg-accent/10 px-3 py-1 text-xs font-medium whitespace-nowrap mr-2">{skill}</span>
+                ))}
+              </div>
+              <div class="hidden lg:inline-flex lg:flex-nowrap lg:gap-0" aria-hidden="true">
+                {skillsRow1.map(skill => (
+                  <span class="rounded-full bg-accent/10 px-3 py-1 text-xs font-medium whitespace-nowrap mr-2">{skill}</span>
+                ))}
+              </div>
+              {skillsRow1.map(skill => (
+                <span class="rounded-full bg-accent/10 px-3 py-1 text-xs font-medium whitespace-nowrap lg:hidden">{skill}</span>
+              ))}
+            </div>
+          </div>
+          <div class="relative overflow-hidden">
+            <div class="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none hidden lg:block"></div>
+            <div class="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none hidden lg:block"></div>
+            <div class="flex flex-wrap justify-center gap-2 lg:inline-flex lg:flex-nowrap lg:gap-0 animate-scroll-left-seamless">
+              <div class="hidden lg:inline-flex lg:flex-nowrap lg:gap-0">
+                {skillsRow2.map(skill => (
+                  <span class="rounded-full bg-accent/10 px-3 py-1 text-xs font-medium whitespace-nowrap mr-2">{skill}</span>
+                ))}
+              </div>
+              <div class="hidden lg:inline-flex lg:flex-nowrap lg:gap-0" aria-hidden="true">
+                {skillsRow2.map(skill => (
+                  <span class="rounded-full bg-accent/10 px-3 py-1 text-xs font-medium whitespace-nowrap mr-2">{skill}</span>
+                ))}
+              </div>
+              {skillsRow2.map(skill => (
+                <span class="rounded-full bg-accent/10 px-3 py-1 text-xs font-medium whitespace-nowrap lg:hidden">{skill}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
+
+    {EDUCATION.enabled && (
+      <div class="w-full mb-4">
+        <h2 class="mb-2 text-sm font-semibold uppercase tracking-wide opacity-70">{educationHeading}</h2>
+        <div class="space-y-2 text-left">
+          {EDUCATION.items.map(entry => (
+            <div class="rounded-lg border border-accent/20 bg-accent/5 p-3">
+              <div class="flex items-center justify-between">
+                <p class="text-sm font-semibold text-accent">{entry.degree}</p>
+                <p class="text-xs opacity-60">{entry.year}</p>
+              </div>
+              <p class="text-xs opacity-70 mt-1">{entry.school}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+
+    {CERTIFICATIONS.enabled && (
+      <div class="w-full mb-4">
+        <h2 class="mb-2 text-sm font-semibold uppercase tracking-wide opacity-70">{certsHeading}</h2>
+        <div class="space-y-1.5 text-left">
+          {CERTIFICATIONS.items.map(cert => (
+            <div class="flex items-start gap-2">
+              <span class="text-accent text-sm">&#10003;</span>
+              <p class="text-xs">{cert}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+
+      </div><!-- End mobile collapsible content -->
+    </details><!-- End mobile details -->
+
+    <!-- Desktop: Show all sections normally -->
+    <div class="hidden lg:block w-full space-y-4 mb-4">
+      {PROFILE.company && (
+        <div class="w-full rounded-lg border border-border bg-muted/20 p-3">
+          <p class="mb-2 text-xs font-semibold uppercase tracking-wide opacity-70">Currently at</p>
+          <a
+            href={PROFILE.company.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center justify-center gap-3 group"
+          >
+            <img
+              src={PROFILE.company.logo}
+              alt={PROFILE.company.name}
+              width="40"
+              height="40"
+              loading="eager"
+              class="h-10 w-10 rounded-full object-cover ring-2 ring-accent/20 transition-all group-hover:ring-accent/50"
+            />
+            <span class="text-lg font-semibold text-foreground group-hover:opacity-80 transition-opacity">{PROFILE.company.name}</span>
+          </a>
+          <p class="mt-2 text-sm opacity-80">{PROFILE.company.title}</p>
+        </div>
+      )}
+
+      {SKILLS.enabled && (
+        <div class="w-full">
+          <h2 class="mb-2 text-sm font-semibold uppercase tracking-wide opacity-70">{skillsHeading}</h2>
+          <div class="space-y-2">
+            <div class="relative overflow-hidden">
+              <div class="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none"></div>
+              <div class="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none"></div>
+              <div class="inline-flex flex-nowrap gap-0 animate-scroll-right-seamless">
+                <div class="inline-flex flex-nowrap gap-0">
+                  {skillsRow1.map(skill => (
+                    <span class="rounded-full bg-accent/10 px-3 py-1 text-xs font-medium whitespace-nowrap mr-2">{skill}</span>
+                  ))}
+                </div>
+                <div class="inline-flex flex-nowrap gap-0" aria-hidden="true">
+                  {skillsRow1.map(skill => (
+                    <span class="rounded-full bg-accent/10 px-3 py-1 text-xs font-medium whitespace-nowrap mr-2">{skill}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div class="relative overflow-hidden">
+              <div class="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none"></div>
+              <div class="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none"></div>
+              <div class="inline-flex flex-nowrap gap-0 animate-scroll-left-seamless">
+                <div class="inline-flex flex-nowrap gap-0">
+                  {skillsRow2.map(skill => (
+                    <span class="rounded-full bg-accent/10 px-3 py-1 text-xs font-medium whitespace-nowrap mr-2">{skill}</span>
+                  ))}
+                </div>
+                <div class="inline-flex flex-nowrap gap-0" aria-hidden="true">
+                  {skillsRow2.map(skill => (
+                    <span class="rounded-full bg-accent/10 px-3 py-1 text-xs font-medium whitespace-nowrap mr-2">{skill}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {EDUCATION.enabled && (
+        <div class="w-full">
+          <h2 class="mb-2 text-sm font-semibold uppercase tracking-wide opacity-70">{educationHeading}</h2>
+          <div class="space-y-2 text-left">
+            {EDUCATION.items.map(entry => (
+              <div class="rounded-lg border border-accent/20 bg-accent/5 p-3">
+                <div class="flex items-center justify-between">
+                  <p class="text-sm font-semibold text-accent">{entry.degree}</p>
+                  <p class="text-xs opacity-60">{entry.year}</p>
+                </div>
+                <p class="text-xs opacity-70 mt-1">{entry.school}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {CERTIFICATIONS.enabled && (
+        <div class="w-full">
+          <h2 class="mb-2 text-sm font-semibold uppercase tracking-wide opacity-70">{certsHeading}</h2>
+          <div class="space-y-1.5 text-left">
+            {CERTIFICATIONS.items.map(cert => (
+              <div class="flex items-start gap-2">
+                <span class="text-accent text-sm">&#10003;</span>
+                <p class="text-xs">{cert}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div><!-- End desktop sections -->
+
+    <!-- Connect with me -->
+    <div class="w-full pt-8">
+      <h2 class="mb-2 text-xs font-semibold tracking-wide"><span class="opacity-70">Connect with me</span> &#x1F447;</h2>
+      <Socials centered />
+    </div>
+  </div>
+</aside>
