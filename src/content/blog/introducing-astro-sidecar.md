@@ -65,7 +65,7 @@ export const SITE: Site = {
   title: "Jane Doe",
   desc: "Developer, designer, and lifelong learner.",
   themeMode: "auto",
-  colorPreset: "emerald",
+  colorPreset: "default",
   postPerIndex: 5,
   postPerPage: 10,
   showArchives: true,
@@ -74,14 +74,9 @@ export const SITE: Site = {
 
 Profile, hero text, navigation, social links, comments -- all in the same file with full TypeScript types for autocompletion.
 
-## Color Themes
+## Custom Colors
 
-Two built-in presets with light and dark variants:
-
-- **Emerald** -- the default
-- **Sapphire** -- blue accent tones
-
-Or define your own with five CSS variables:
+The default theme uses a blue accent in light mode and green in dark mode. Define your own with five CSS variables:
 
 ```ts
 colorPreset: "custom",

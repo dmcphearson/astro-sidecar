@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="160" viewBox="0 0 800 160">
+  <style>
+    .score-circle { fill: none; stroke-width: 8; }
+    .score-bg { stroke: #e8e8e8; }
+    .score-green { stroke: #0cce6b; }
+    .score-text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 36px; font-weight: 700; fill: #0cce6b; text-anchor: middle; dominant-baseline: central; }
+    .label-text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; fill: #666; text-anchor: middle; }
+  </style>
+  <!-- Performance -->
+  <g transform="translate(100,70)">
+    <circle class="score-circle score-bg" cx="0" cy="0" r="46"/>
+    <circle class="score-circle score-green" cx="0" cy="0" r="46" stroke-dasharray="289.03" stroke-dashoffset="0" transform="rotate(-90)"/>
+    <text class="score-text" x="0" y="0">100</text>
+    <text class="label-text" x="0" y="68">Performance</text>
+  </g>
+  <!-- Accessibility -->
+  <g transform="translate(280,70)">
+    <circle class="score-circle score-bg" cx="0" cy="0" r="46"/>
+    <circle class="score-circle score-green" cx="0" cy="0" r="46" stroke-dasharray="289.03" stroke-dashoffset="0" transform="rotate(-90)"/>
+    <text class="score-text" x="0" y="0">100</text>
+    <text class="label-text" x="0" y="68">Accessibility</text>
+  </g>
+  <!-- Best Practices -->
+  <g transform="translate(460,70)">
+    <circle class="score-circle score-bg" cx="0" cy="0" r="46"/>
+    <circle class="score-circle score-green" cx="0" cy="0" r="46" stroke-dasharray="289.03" stroke-dashoffset="0" transform="rotate(-90)"/>
+    <text class="score-text" x="0" y="0">100</text>
+    <text class="label-text" x="0" y="68">Best Practices</text>
+  </g>
+  <!-- SEO -->
+  <g transform="translate(640,70)">
+    <circle class="score-circle score-bg" cx="0" cy="0" r="46"/>
+    <circle class="score-circle score-green" cx="0" cy="0" r="46" stroke-dasharray="289.03" stroke-dashoffset="0" transform="rotate(-90)"/>
+    <text class="score-text" x="0" y="0">100</text>
+    <text class="label-text" x="0" y="68">SEO</text>
+  </g>
+</svg>

@@ -1,35 +1,75 @@
 # Astro Sidecar
 
-A portfolio, resume, and blog theme for [Astro](https://astro.build) with a distinctive sidebar.
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Astro](https://img.shields.io/badge/Astro-BC52EE?style=for-the-badge&logo=astro&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![GitHub](https://img.shields.io/github/license/dmcphearson/astro-sidecar?color=%232F3741&style=for-the-badge)
 
-Built for professionals who want a personal site that doubles as an online resume. Configure everything from a single file -- your profile, skills, education, certifications, projects, and blog are all driven by `src/config.ts`.
+A portfolio, resume, and blog theme for [Astro](https://astro.build) with a distinctive sidebar layout. Built for professionals who want a personal site that doubles as an online resume.
+
+Configure everything from a single file -- your profile, skills, education, certifications, projects, and blog are all driven by `src/config.ts`.
+
+[Live Demo](https://astro-sidecar.pages.dev/) | [Getting Started](https://astro-sidecar.pages.dev/posts/getting-started-with-astro-sidecar/)
 
 ## Features
 
-- Sidebar with profile photo, current role, scrolling skills, education, and certifications
-- Every sidebar section independently toggleable
-- Projects/tinkerings grid on the homepage
-- Blog with tags, search, archives, and RSS
-- Two color presets (Emerald, Sapphire) or define your own
-- Theme mode: `light`, `dark`, or `auto` (toggle + system preference)
-- Optional Giscus comments
-- Configurable navigation
-- Responsive design (sidebar collapses on mobile)
-- View transitions for smooth page navigation
-- SEO-friendly with Open Graph images
-- Full-text search via Pagefind
+- [x] Config-driven sidebar with profile, skills, education, certifications, and social links
+- [x] Every sidebar section independently toggleable
+- [x] Projects grid on the homepage
+- [x] Blog with tags, search, archives, RSS, and pagination
+- [x] Custom color themes (define your own light/dark accent colors)
+- [x] Theme mode: `light`, `dark`, or `auto` (toggle + system preference)
+- [x] Optional Giscus comments backed by GitHub Discussions
+- [x] Full-text search via Pagefind
+- [x] View transitions for smooth page navigation
+- [x] Responsive design (sidebar collapses on mobile with "View my background" toggle)
+- [x] Social sharing (WhatsApp, Facebook, Bluesky, Mastodon, X, Email)
+- [x] Collapsible table of contents
+- [x] SEO-friendly with Open Graph metadata
+- [x] Accessible (keyboard navigation, screen readers, sufficient contrast)
+- [x] Sitemap and RSS feed
+- [x] Draft posts and scheduled publishing
+
+## Lighthouse Score
+
+<p align="center">
+  <a href="https://pagespeed.web.dev/analysis/https-astro-sidecar-pages-dev/27rfvq88oc?form_factor=desktop">
+    <img width="710" alt="Astro Sidecar Lighthouse Score" src="lighthouse-score.svg">
+  </a>
+</p>
+
+## Project Structure
+
+```
+/
+├── public/
+│   ├── assets/          # Profile photo, company logo, post images
+│   ├── fonts/           # Self-hosted Inter font files
+│   └── favicon.ico
+├── src/
+│   ├── assets/
+│   │   └── icons/       # SVG icons (social, UI)
+│   ├── components/      # Astro components (Sidebar, Header, Card, etc.)
+│   ├── content/
+│   │   └── blog/        # Markdown blog posts
+│   ├── layouts/         # Page layouts (SidebarLayout, PostDetails, etc.)
+│   ├── pages/           # File-based routing
+│   ├── scripts/         # Client-side scripts (theme toggle)
+│   ├── styles/          # Global CSS and typography
+│   ├── utils/           # Post filtering, sorting, slugification
+│   ├── config.ts        # All site configuration lives here
+│   ├── constants.ts     # Share link definitions
+│   ├── content.config.ts
+│   └── types.ts         # TypeScript types for all config sections
+└── astro.config.ts
+```
 
 ## Quick Start
 
 ```bash
-# Clone the repo
 git clone https://github.com/dmcphearson/astro-sidecar.git my-site
 cd my-site
-
-# Install dependencies
 npm install
-
-# Start the dev server
 npm run dev
 ```
 
@@ -37,64 +77,42 @@ Open `src/config.ts` and replace the demo content with your own.
 
 ## Configuration
 
-All site content is configured in `src/config.ts`. Here's what you can customize:
+All site content is configured in `src/config.ts`. Each section is typed with TypeScript for autocompletion.
 
-### SITE
-Core site settings: URL, title, description, theme mode (`light` | `dark` | `auto`), color preset (`emerald` | `sapphire` | `custom`), posts per page.
-
-### PROFILE
-Your photo, name, tagline, and current company (name, title, logo, URL). Company section is optional.
-
-### HERO
-The homepage greeting and intro paragraphs.
-
-### SKILLS
-Toggle on/off. List of skill strings displayed as scrolling tags in the sidebar.
-
-### EDUCATION
-Toggle on/off. Array of `{ degree, year, school }` entries.
-
-### CERTIFICATIONS
-Toggle on/off. Array of certification name strings.
-
-### PROJECTS
-Toggle on/off. Heading text and array of project entries with name, description, status, and optional URL.
-
-### NAV_ITEMS
-Array of `{ label, path }` for the navigation menu.
-
-### COMMENTS
-Enable/disable Giscus comments with your repo configuration.
-
-### SOCIALS
-Array of social links (GitHub, LinkedIn, Mail, etc.).
+| Section | Description |
+|---------|-------------|
+| `SITE` | URL, title, description, theme mode, custom colors, posts per page |
+| `PROFILE` | Photo, name, tagline, current company (optional) |
+| `HERO` | Homepage greeting and intro paragraphs |
+| `SKILLS` | Scrolling skill tags in the sidebar (toggleable) |
+| `EDUCATION` | Degree, year, and school entries (toggleable) |
+| `CERTIFICATIONS` | Certification name strings (toggleable) |
+| `PROJECTS` | Homepage project grid with name, description, status, optional URL |
+| `NAV_ITEMS` | Navigation menu links |
+| `COMMENTS` | Giscus comment integration |
+| `SOCIALS` | Social links (GitHub, LinkedIn, Mail, Substack, etc.) |
 
 ### Custom Colors
 
-Set `colorPreset: "custom"` and provide your colors:
+The default theme uses a blue accent in light mode and green in dark mode. To define your own colors, set `colorPreset: "custom"` and provide light and dark values:
 
 ```ts
+colorPreset: "custom",
 customColors: {
-  light: {
-    background: "#fafaf8",
-    foreground: "#171717",
-    accent: "#9333ea",
-    muted: "#f3f4f6",
-    border: "#e5e7eb",
-  },
-  dark: {
-    background: "#101012",
-    foreground: "#f5f5f7",
-    accent: "#c084fc",
-    muted: "#262628",
-    border: "#373738",
-  },
+  light: { background: "#fafaf8", foreground: "#171717", accent: "#9333ea", muted: "#f3f4f6", border: "#e5e7eb" },
+  dark:  { background: "#101012", foreground: "#f5f5f7", accent: "#c084fc", muted: "#262628", border: "#373738" },
 },
 ```
 
+### Theme Modes
+
+- `"dark"` -- dark mode only, no toggle
+- `"light"` -- light mode only, no toggle
+- `"auto"` -- respects system preference, shows a toggle in the nav
+
 ## Blog Posts
 
-Create markdown files in `src/content/blog/` with this frontmatter:
+Create markdown files in `src/content/blog/`:
 
 ```yaml
 ---
@@ -110,6 +128,17 @@ tags:
 description: A short description for previews and SEO.
 ---
 ```
+
+## Tech Stack
+
+**Framework** - [Astro](https://astro.build/) v6
+**Type Checking** - [TypeScript](https://www.typescriptlang.org/)
+**Styling** - [Tailwind CSS](https://tailwindcss.com/) v4
+**Static Search** - [Pagefind](https://pagefind.app/)
+**Icons** - [Tabler Icons](https://tabler-icons.io/)
+**Code Formatting** - [Prettier](https://prettier.io/)
+**Linting** - [ESLint](https://eslint.org)
+**Deployment** - [Cloudflare Pages](https://pages.cloudflare.com/)
 
 ## Commands
 

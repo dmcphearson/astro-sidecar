@@ -48,7 +48,7 @@ export const SITE: Site = {
   title: "Jane Doe",
   ogImage: "og-default.jpg",
   themeMode: "auto",
-  colorPreset: "emerald",
+  colorPreset: "default",
   postPerIndex: 5,
   postPerPage: 10,
   scheduledPostMargin: 15 * 60 * 1000,
@@ -62,7 +62,7 @@ export const SITE: Site = {
 - `"light"` -- light mode only, no toggle
 - `"auto"` -- respects system preference, shows a toggle button in the nav
 
-**colorPreset** selects a color scheme. Astro Sidecar ships with `"emerald"` (green accent) and `"sapphire"` (blue accent). Set it to `"custom"` and provide your own colors via the `customColors` property.
+**colorPreset** controls the site's color scheme. The `"default"` scheme uses a blue accent in light mode and green in dark mode. Set it to `"custom"` and provide your own colors via the `customColors` property.
 
 ### PROFILE
 
@@ -230,19 +230,9 @@ export const SOCIALS: SocialObjects = [
 
 Astro Sidecar includes icons for 24 platforms: Github, LinkedIn, Mail, X, Bluesky, Threads, Mastodon, YouTube, Twitch, Discord, Instagram, Facebook, TikTok, Reddit, Telegram, WhatsApp, Pinterest, Snapchat, CodePen, GitLab, Skype, Steam, Substack, and Website (globe icon). Set `active: false` to hide a social link without removing it.
 
-## Color Themes
+## Custom Colors
 
-### Built-in Presets
-
-**Emerald** (default) -- green accent colors, dark background.
-
-**Sapphire** -- blue accent colors, slightly different dark background.
-
-Switch between them by changing `colorPreset` in your SITE config.
-
-### Custom Colors
-
-Define your own color scheme by setting `colorPreset: "custom"` and providing light and dark variants:
+The default theme uses a blue accent in light mode and green in dark mode. To define your own color scheme, set `colorPreset: "custom"` and provide light and dark variants:
 
 ```ts
 export const SITE: Site = {
