@@ -3,7 +3,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 ![Astro](https://img.shields.io/badge/Astro-BC52EE?style=for-the-badge&logo=astro&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![GitHub](https://img.shields.io/github/license/dmcphearson/astro-sidecar?color=%232F3741&style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/dmcphearson/astro-sidecar?color=%232F3741&style=for-the-badge&v=1)
 
 A portfolio, resume, and blog theme for [Astro](https://astro.build) with a distinctive sidebar layout. Built for professionals who want a personal site that doubles as an online resume.
 
