@@ -50,8 +50,8 @@ const isActive = (path: string) => {
           aria-expanded="false"
           aria-controls="menu-items"
         >
-          <IconX id="close-icon" class="hidden" />
-          <IconMenuDeep id="menu-icon" />
+          <IconX class="menu-close-icon hidden" />
+          <IconMenuDeep class="menu-open-icon" />
         </button>
         <ul
           id="menu-items"
@@ -111,8 +111,8 @@ const isActive = (path: string) => {
     const container = this.closest("nav");
     if (!container) return;
     const menuItems = container.querySelector("#menu-items");
-    const menuIcon = container.querySelector("#menu-icon");
-    const closeIcon = container.querySelector("#close-icon");
+    const menuIcon = container.querySelector(".menu-open-icon");
+    const closeIcon = container.querySelector(".menu-close-icon");
     if (!menuItems || !menuIcon || !closeIcon) return;
 
     const openMenu = this.getAttribute("aria-expanded") === "true";

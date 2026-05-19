@@ -45,7 +45,7 @@ const sortedPosts = getSortedPosts(posts);
 
         <div class="mt-auto pb-8 pt-4 text-center">
           <LinkButton href="/posts/" className="inline-flex items-center gap-1">
-            Read More
+            View all blog posts
             <svg xmlns="http://www.w3.org/2000/svg" class="inline-block h-6 w-6 fill-current" viewBox="0 0 24 24">
               <path
                 d="m11.293 17.293 1.414 1.414L19.414 12l-6.707-6.707-1.414 1.414L15.586 11H6v2h9.586z"
@@ -69,7 +69,7 @@ const sortedPosts = getSortedPosts(posts);
                       ) : (
                         <span class="font-medium">{project.name}</span>
                       )}
-                      <span class:list={["text-xs", project.status === "Work in Progress" ? "italic opacity-50" : "opacity-60"]}>{project.status}</span>
+                      <span class:list={["text-xs", project.status === "Work in Progress" ? "italic opacity-70" : "opacity-70"]}>{project.status}</span>
                     </div>
                     <p class="text-sm opacity-80">{project.description}</p>
                   </div>
