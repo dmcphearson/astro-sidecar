@@ -19,7 +19,7 @@ export const SITE: Site = {
   title: "Jane Doe",
   ogImage: "og-default.jpg",
   themeMode: "auto",
-  colorPreset: "emerald",
+  colorPreset: "default",
   postPerIndex: 5,
   postPerPage: 10,
   scheduledPostMargin: 15 * 60 * 1000,

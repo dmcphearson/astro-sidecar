@@ -1,7 +1,7 @@
 import type socialIcons from "@/assets/socialIcons";
 
 export type ThemeMode = "light" | "dark" | "auto";
-export type ColorPreset = "emerald" | "sapphire" | "custom";
+export type ColorPreset = "default" | "custom";
 
 export type Site = {
   website: string;
