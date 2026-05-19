@@ -1,0 +1,43 @@
+---
+import Layout from "./Layout.astro";
+import Sidebar from "@/components/Sidebar.astro";
+
+export interface Props {
+  title?: string;
+  author?: string;
+  profile?: string;
+  description?: string;
+  ogImage?: string;
+  canonicalURL?: string;
+  pubDatetime?: Date;
+  modDatetime?: Date | null;
+  scrollSmooth?: boolean;
+}
+
+const props = Astro.props;
+---
+
+<Layout {...props}>
+  <div class="mx-auto flex min-h-screen w-full max-w-7xl flex-col lg:flex-row">
+    <!-- Mobile: Header at top -->
+    <div class="w-full px-4 sm:px-6 lg:hidden">
+      <slot name="header" />
+    </div>
+
+    <!-- Sidebar -->
+    <div class="px-4 sm:px-6 lg:px-8">
+      <Sidebar />
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="flex min-h-screen w-full flex-col px-4 sm:px-6 lg:w-auto lg:flex-1 lg:px-0">
+      <!-- Desktop: Header inside content area -->
+      <div class="hidden lg:block">
+        <slot name="header" />
+      </div>
+
+      <!-- Main content -->
+      <slot />
+    </div>
+  </div>
+</Layout>
