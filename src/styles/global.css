@@ -37,7 +37,6 @@
 }
 
 /* Default color scheme */
-:root,
 html[data-theme="light"] {
   --background: #fafaf8;
   --foreground: #171717;

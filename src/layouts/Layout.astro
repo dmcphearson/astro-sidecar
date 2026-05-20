@@ -54,6 +54,7 @@ const structuredData = {
 <!doctype html>
 <html
   lang=`${LOCALE.lang ?? "en"}`
+  data-theme={SITE.themeMode === "auto" ? "light" : (SITE.themeMode || "dark")}
   class={`${scrollSmooth && "scroll-smooth"}`}
 >
   <head>
